@@ -4,12 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate:turso": "node scripts/migrate-turso.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@libsql/client": "^0.18.0",
+    "@next/env": "^16.3.8",
+    "@prisma/adapter-libsql": "^6.19.0",
     "@prisma/client": "^6.19.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",

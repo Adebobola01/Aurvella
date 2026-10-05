@@ -6,11 +6,52 @@ product dashboard, and product creation/editing with inventory quantities,
 fixed product categories, and Cloudflare Images uploads. The public storefront
 is the next development step.
 
+## Database
+
+Local development uses a SQLite file at `prisma/prisma/dev.db`. Vercel
+deployments use [Turso](https://turso.tech/), a hosted SQLite-compatible
+database, because serverless function instances do not share a persistent local
+database file.
+
+1. Create a Turso database and an authentication token with the Turso CLI.
+2. Set `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` in the Vercel project's
+   environment variables for every environment you deploy. To run migrations
+   locally, set the same values in `.env.local`.
+3. Apply all pending migrations, in order, by running:
+
+   ```bash
+   npm run db:migrate:turso
+   ```
+
+   The script records applied migration names in the database and can be run
+   again safely. Run it before deploying code that depends on a new migration.
+   Prisma Migrate does not apply migrations directly to Turso.
+4. Redeploy the project. If the existing local SQLite database contains product
+   data you need in production, migrate that data separately; applying these
+   files creates the schema but does not copy local records.
+
+If you already applied the migrations manually with `turso db shell`, initialize
+the migration record table once without reapplying the SQL:
+
+```bash
+npm run db:migrate:turso -- --baseline
+```
+
+This baseline option verifies the current product tables and columns before
+recording the existing migrations. Do not use it on a new or partially migrated
+database.
+
+Dependency installation runs `prisma generate`, so the deployed Prisma Client
+is generated from the checked-in schema.
+
+When `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` are absent, development uses
+the local SQLite database. Production intentionally fails with a configuration
+error rather than silently attempting to open a non-persistent SQLite file.
+
 ## Administrator authentication setup
 
-1. Copy `.env.example` to `.env.local` and copy the `DATABASE_URL` entry into
-   `.env` as well. Prisma CLI reads `.env` when creating and applying database
-   migrations; Next.js reads `.env.local` when running the app.
+1. Copy `.env.example` to `.env.local` for Next.js. The local SQLite file path
+   is configured in `prisma/schema.prisma`.
 2. Generate a password hash in an interactive terminal:
 
    ```bash
