@@ -93,22 +93,17 @@ error rather than silently attempting to open a non-persistent SQLite file.
      {
        "AllowedOrigins": [
          "http://localhost:3000",
-         "https://your-domain.example",
-         "https://*.vercel.app"
+         "https://aurvella.vercel.app"
        ],
        "AllowedMethods": ["PUT"],
-       "AllowedHeaders": [
-         "Content-Type",
-         "x-amz-meta-source",
-         "x-amz-meta-nonce"
-       ],
+       "AllowedHeaders": ["*"],
+       "ExposeHeaders": ["ETag"],
        "MaxAgeSeconds": 3600
      }
    ]
    ```
 
-   Replace `https://your-domain.example` with your actual site origin; remove
-   `https://*.vercel.app` if you do not use Vercel preview deployments. CORS
+   Add each Vercel preview origin separately if you upload from previews. CORS
    origins must be origins only (no paths or trailing slash). Uploads use
    short-lived presigned URLs, so the R2 access key and secret stay on the
    server. Existing Cloudflare Images URLs continue to work. Published products
