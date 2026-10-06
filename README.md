@@ -89,16 +89,28 @@ error rather than silently attempting to open a non-persistent SQLite file.
    headers:
 
    ```json
-   {
-     "AllowedOrigins": ["http://localhost:3000", "https://your-domain.example"],
-     "AllowedMethods": ["PUT"],
-     "AllowedHeaders": ["Content-Type", "x-amz-meta-source", "x-amz-meta-nonce"],
-     "MaxAgeSeconds": 3600
-   }
+   [
+     {
+       "AllowedOrigins": [
+         "http://localhost:3000",
+         "https://your-domain.example",
+         "https://*.vercel.app"
+       ],
+       "AllowedMethods": ["PUT"],
+       "AllowedHeaders": [
+         "Content-Type",
+         "x-amz-meta-source",
+         "x-amz-meta-nonce"
+       ],
+       "MaxAgeSeconds": 3600
+     }
+   ]
    ```
 
-   Replace `https://your-domain.example` with your actual site origin. Uploads
-   use short-lived presigned URLs, so the R2 access key and secret stay on the
+   Replace `https://your-domain.example` with your actual site origin; remove
+   `https://*.vercel.app` if you do not use Vercel preview deployments. CORS
+   origins must be origins only (no paths or trailing slash). Uploads use
+   short-lived presigned URLs, so the R2 access key and secret stay on the
    server. Existing Cloudflare Images URLs continue to work. Published products
    need at least one image; drafts may be saved without images.
 

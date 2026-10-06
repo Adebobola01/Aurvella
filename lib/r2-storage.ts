@@ -199,7 +199,6 @@ export async function createProductImageUpload({
     new PutObjectCommand({
       Bucket: bucketName,
       Key: key,
-      ContentLength: byteSize,
       ContentType: contentType,
       Metadata: { source: "aurvella-admin", nonce },
     }),
