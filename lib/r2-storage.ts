@@ -209,7 +209,6 @@ export async function createProductImageUpload({
       Bucket: bucketName,
       Key: key,
       ContentType: contentType,
-      Metadata: { source: "aurvella-admin", nonce },
     }),
     { expiresIn: UPLOAD_URL_TTL_SECONDS },
   );
@@ -218,8 +217,6 @@ export async function createProductImageUpload({
     uploadURL,
     uploadHeaders: {
       "Content-Type": contentType,
-      "x-amz-meta-source": "aurvella-admin",
-      "x-amz-meta-nonce": nonce,
     },
     ticket,
     deliveryURL: getPublicUrl(publicUrl, key),
@@ -240,9 +237,7 @@ export async function verifyProductImageUpload(
 
   if (
     result.ContentLength !== ticket.byteSize ||
-    result.ContentType !== ticket.contentType ||
-    result.Metadata?.source !== "aurvella-admin" ||
-    result.Metadata?.nonce !== ticket.nonce
+    result.ContentType !== ticket.contentType
   ) {
     throw new Error("The uploaded image could not be verified. Please try again.");
   }

@@ -100,11 +100,7 @@ error rather than silently attempting to open a non-persistent SQLite file.
          "https://aurvella.vercel.app"
        ],
        "AllowedMethods": ["PUT"],
-       "AllowedHeaders": [
-         "Content-Type",
-         "x-amz-meta-nonce",
-         "x-amz-meta-source"
-       ],
+       "AllowedHeaders": ["Content-Type"],
        "ExposeHeaders": ["ETag"],
        "MaxAgeSeconds": 3600
      }
@@ -112,12 +108,10 @@ error rather than silently attempting to open a non-persistent SQLite file.
    ```
 
    Add each Vercel preview origin separately if you upload from previews. CORS
-   origins must be origins only (no paths or trailing slash). Keep the three
-   allowed headers listed above: the browser includes them in the upload
-   preflight. Uploads use short-lived presigned URLs, so the R2 access key and
-   secret stay on the server. Existing Cloudflare Images URLs continue to work.
-   Published products need at least one image; drafts may be saved without
-   images.
+   origins must be origins only (no paths or trailing slash). Uploads use
+   short-lived presigned URLs, so the R2 access key and secret stay on the
+   server. Existing Cloudflare Images URLs continue to work. Published products
+   need at least one image; drafts may be saved without images.
 
 R2's monthly free tier includes 10 GB-month of Standard storage, 1 million
 Class A operations, and 10 million Class B operations; internet egress is free.
