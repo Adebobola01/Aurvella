@@ -92,6 +92,7 @@ function getS3Client() {
     region: "auto",
     endpoint: `https://${accountId}${jurisdictionHost}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId, secretAccessKey },
+    requestChecksumCalculation: "WHEN_REQUIRED",
   });
   return cachedClient;
 }
