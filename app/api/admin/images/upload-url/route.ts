@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/admin-auth";
 import {
-  createCloudflareUpload,
+  createProductImageUpload,
   isAllowedProductImage,
-} from "@/lib/cloudflare-images";
+} from "@/lib/r2-storage";
 
 export async function POST(request: Request) {
   if (!(await getAdminSession())) {
@@ -37,20 +37,25 @@ export async function POST(request: Request) {
   }
 
   try {
-    const upload = await createCloudflareUpload({ altText: altText.trim() });
+    const upload = await createProductImageUpload({
+      contentType,
+      byteSize,
+      altText: altText.trim(),
+    });
 
     return NextResponse.json(
       {
         uploadURL: upload.uploadURL,
+        uploadHeaders: upload.uploadHeaders,
         ticket: upload.ticket,
         deliveryURL: upload.deliveryURL,
       },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch (error) {
-    console.error("Unable to create a Cloudflare product image upload.", error);
+    console.error("Unable to create an R2 product image upload.", error);
     return NextResponse.json(
-      { error: "Image upload is unavailable. Check the Cloudflare setup." },
+      { error: "Image upload is unavailable. Check the R2 setup." },
       { status: 503 },
     );
   }

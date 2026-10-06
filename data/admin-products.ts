@@ -4,9 +4,9 @@ import { randomBytes } from "node:crypto";
 import type { Prisma } from "@prisma/client";
 import { getAdminSession } from "@/lib/admin-auth";
 import {
-  verifyCloudflareImageTicket,
-  type CloudflareImageTicket,
-} from "@/lib/cloudflare-images";
+  verifyProductImageUpload,
+  type ProductImageUploadTicket,
+} from "@/lib/r2-storage";
 import { db } from "@/lib/db";
 import {
   isProductCategory,
@@ -32,16 +32,18 @@ function slugify(value: string) {
     .replace(/-+$/g, "");
 }
 
-function isImageTicket(value: unknown): value is CloudflareImageTicket {
+function isImageTicket(value: unknown): value is ProductImageUploadTicket {
   if (typeof value !== "object" || value === null) return false;
   const ticket = value as Record<string, unknown>;
 
   return (
-    typeof ticket.id === "string" &&
-    ticket.id.length > 0 &&
-    ticket.id.length <= 100 &&
+    typeof ticket.key === "string" &&
+    ticket.key.length > 0 &&
+    ticket.key.length <= 300 &&
     typeof ticket.altText === "string" &&
     ticket.altText.length <= 200 &&
+    typeof ticket.contentType === "string" &&
+    typeof ticket.byteSize === "number" &&
     typeof ticket.expiresAt === "number" &&
     typeof ticket.nonce === "string" &&
     typeof ticket.signature === "string"
@@ -75,7 +77,7 @@ export async function createAdminProduct({
     !Array.isArray(imageTickets) ||
     !imageTickets.every(isImageTicket) ||
     imageTickets.length > 6 ||
-    new Set(imageTickets.map((ticket) => ticket.id)).size !==
+    new Set(imageTickets.map((ticket) => ticket.key)).size !==
       imageTickets.length
   ) {
     throw new Error("PRODUCT_FORM:Image details are invalid. Please retry.");
@@ -111,7 +113,7 @@ export async function createAdminProduct({
   try {
     images = await Promise.all(
       imageTickets.map(async (ticket, displayOrder) => ({
-        ...(await verifyCloudflareImageTicket(ticket)),
+        ...(await verifyProductImageUpload(ticket)),
         displayOrder,
       })),
     );

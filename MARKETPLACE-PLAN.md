@@ -25,7 +25,7 @@ and a protected admin area for managing products, prices, and images.
   environment variables. Do not provide public admin registration.
 - Store the current price and currency on each product. Admin price edits
   replace the current price; historical price tracking can be added if needed.
-- Use Cloudflare Images for product media. Keep Cloudflare credentials on the
+- Use Cloudflare R2 for product media. Keep R2 credentials on the
   server and persist image identifiers and delivery URLs, not image binaries,
   in SQLite.
 - Use a restrained black-and-white visual system, with product photography
@@ -122,13 +122,13 @@ reorder, and remove a product's images without losing the product record.
 - Support draft/published visibility and prevent incomplete products from being
   published.
 - Provide a dedicated create-product page with validated details, price,
-  currency, category, draft/published status, and Cloudflare Images upload.
+  currency, category, draft/published status, and R2 image upload.
 - Add clear success and failure feedback for create, update, and delete/archive
   actions.
 - Confirm destructive actions and avoid hard-deleting products that should
   remain in the catalog history.
 
-### 6. Cloudflare Images integration
+### 6. Cloudflare R2 integration
 
 - Configure Cloudflare account identifiers and API credentials as server-only
   environment variables.
@@ -152,7 +152,7 @@ reorder, and remove a product's images without losing the product record.
   backups for SQLite. If deployment uses ephemeral/serverless filesystems,
   revisit the database choice before release while preserving SQLite as the
   local development database.
-- Configure production environment variables and Cloudflare Images access
+- Configure production environment variables and Cloudflare R2 access
   before enabling uploads.
 
 ## Acceptance criteria

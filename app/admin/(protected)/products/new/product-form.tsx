@@ -24,8 +24,10 @@ const ALLOWED_TYPES = new Set([
 ]);
 
 type UploadTicket = {
-  id: string;
+  key: string;
   altText: string;
+  contentType: string;
+  byteSize: number;
   expiresAt: number;
   nonce: string;
   signature: string;
@@ -41,6 +43,7 @@ type SelectedImage = {
 
 type UploadResponse = {
   uploadURL: string;
+  uploadHeaders: Record<string, string>;
   ticket: UploadTicket;
   deliveryURL: string;
   error?: string;
@@ -99,19 +102,15 @@ export function CreateProductForm() {
           throw new Error(upload.error ?? "Could not prepare the image upload.");
         }
 
-        const body = new FormData();
-        body.set("file", image.file);
         const imageResponse = await fetch(upload.uploadURL, {
-          method: "POST",
-          body,
+          method: "PUT",
+          headers: upload.uploadHeaders,
+          body: image.file,
         });
-        const imageResult = (await imageResponse.json()) as {
-          success?: boolean;
-        };
 
-        if (!imageResponse.ok || imageResult.success !== true) {
+        if (!imageResponse.ok) {
           throw new Error(
-            `Cloudflare could not upload ${image.file.name}. Please try again.`,
+            `R2 could not upload ${image.file.name}. Check the bucket CORS settings and try again.`,
           );
         }
 

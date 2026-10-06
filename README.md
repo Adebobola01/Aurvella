@@ -3,7 +3,7 @@
 Aurvella is a jewelry marketplace built with Next.js App Router. The initial
 implementation includes protected administrator sign-in, a SQLite-backed
 product dashboard, and product creation/editing with inventory quantities,
-fixed product categories, and Cloudflare Images uploads. The public storefront
+fixed product categories, and Cloudflare R2 image uploads. The public storefront
 is the next development step.
 
 ## Database
@@ -77,13 +77,36 @@ error rather than silently attempting to open a non-persistent SQLite file.
    ```
 
    Visit `/admin/login` to sign in and `/admin` to open the product dashboard.
-6. To upload product images, set `CLOUDFLARE_ACCOUNT_ID`,
-   `CLOUDFLARE_ACCOUNT_HASH`, and `CLOUDFLARE_API_TOKEN` in `.env.local` (and in
-   production secrets). The API token needs permission to upload and read
-   Cloudflare Images for that account. Image uploads use one-time direct upload
-   URLs; API credentials stay on the server. Configure the account hash used by
-   your Cloudflare Images delivery URLs. Published products need at least one
-   image; drafts may be saved without images.
+6. To upload product images, create an R2 bucket, enable public access using a
+   custom domain, and create an R2 API token with Object Read & Write access to
+   that bucket. Set `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
+   `R2_BUCKET_NAME`, and `R2_PUBLIC_URL` in `.env.local` and in production
+   secrets. `R2_PUBLIC_URL` is the HTTPS origin (and optional path prefix) for
+   the bucket's custom domain, without a trailing slash.
+
+   In the bucket's **Settings → CORS Policy**, allow `PUT` from
+   `http://localhost:3000` and your deployed app origins, with these request
+   headers:
+
+   ```json
+   {
+     "AllowedOrigins": ["http://localhost:3000", "https://your-domain.example"],
+     "AllowedMethods": ["PUT"],
+     "AllowedHeaders": ["Content-Type", "x-amz-meta-source", "x-amz-meta-nonce"],
+     "MaxAgeSeconds": 3600
+   }
+   ```
+
+   Replace `https://your-domain.example` with your actual site origin. Uploads
+   use short-lived presigned URLs, so the R2 access key and secret stay on the
+   server. Existing Cloudflare Images URLs continue to work. Published products
+   need at least one image; drafts may be saved without images.
+
+R2's monthly free tier includes 10 GB-month of Standard storage, 1 million
+Class A operations, and 10 million Class B operations; internet egress is free.
+Usage beyond the included amounts is billed. R2 stores and serves the original
+image files; it does not provide Cloudflare Images' named image variants or
+transformations. See [R2 pricing](https://developers.cloudflare.com/r2/pricing/).
 
 Product categories are selected from the fixed list in the admin forms instead
 of entered as free text. Inventory quantity is a non-negative whole number.
