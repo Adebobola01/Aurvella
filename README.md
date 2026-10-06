@@ -81,8 +81,12 @@ error rather than silently attempting to open a non-persistent SQLite file.
    custom domain, and create an R2 API token with Object Read & Write access to
    that bucket. Set `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
    `R2_BUCKET_NAME`, and `R2_PUBLIC_URL` in `.env.local` and in production
-   secrets. `R2_PUBLIC_URL` is the HTTPS origin (and optional path prefix) for
-   the bucket's custom domain, without a trailing slash.
+   secrets. Set `R2_JURISDICTION=eu` for the EU-jurisdiction bucket shown in
+   your dashboard. This makes signed uploads use
+   `<account-id>.eu.r2.cloudflarestorage.com`; omit the setting for a bucket
+   without a jurisdiction restriction. `R2_PUBLIC_URL` is the HTTPS origin (and
+   optional path prefix) for the bucket's custom domain, without a trailing
+   slash.
 
    In the bucket's **Settings → CORS Policy**, allow `PUT` from
    `http://localhost:3000` and your deployed app origins, with these request

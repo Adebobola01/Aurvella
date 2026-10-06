@@ -31,6 +31,7 @@ let cachedClient: S3Client | undefined;
 
 function getR2Config() {
   const accountId = process.env.R2_ACCOUNT_ID;
+  const jurisdiction = process.env.R2_JURISDICTION?.trim().toLowerCase() ?? "";
   const accessKeyId = process.env.R2_ACCESS_KEY_ID;
   const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
   const bucketName = process.env.R2_BUCKET_NAME;
@@ -46,6 +47,10 @@ function getR2Config() {
     throw new Error(
       "Configure R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME, and R2_PUBLIC_URL.",
     );
+  }
+
+  if (!["", "eu", "us", "fedramp"].includes(jurisdiction)) {
+    throw new Error("R2_JURISDICTION must be eu, us, fedramp, or unset.");
   }
 
   let publicOrigin: URL;
@@ -69,6 +74,7 @@ function getR2Config() {
 
   return {
     accountId,
+    jurisdiction,
     accessKeyId,
     secretAccessKey,
     bucketName,
@@ -79,10 +85,12 @@ function getR2Config() {
 function getS3Client() {
   if (cachedClient) return cachedClient;
 
-  const { accountId, accessKeyId, secretAccessKey } = getR2Config();
+  const { accountId, jurisdiction, accessKeyId, secretAccessKey } =
+    getR2Config();
+  const jurisdictionHost = jurisdiction ? `.${jurisdiction}` : "";
   cachedClient = new S3Client({
     region: "auto",
-    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    endpoint: `https://${accountId}${jurisdictionHost}.r2.cloudflarestorage.com`,
     credentials: { accessKeyId, secretAccessKey },
   });
   return cachedClient;
