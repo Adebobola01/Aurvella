@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Logo from "@/components/Logo";
 
 const navLinks = [
   { href: "/products", label: "All jewelry" },
@@ -27,18 +28,25 @@ export function StoreHeader() {
     <header className="shop-header">
       <div className="shop-announcement">
         <span>Jewelry for every day & everything after</span>
-        <Link href="/products">Discover the collection <span aria-hidden="true">→</span></Link>
+        <Link href="/products">
+          Discover the collection <span aria-hidden="true">→</span>
+        </Link>
       </div>
       <div className="shop-header-main shop-content">
         <div className="shop-mobile-trigger-wrap">
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-            <SheetTrigger className="shop-icon-button" aria-label="Open navigation menu">
+            <SheetTrigger
+              className="shop-icon-button"
+              aria-label="Open navigation menu"
+            >
               <Menu aria-hidden="true" />
             </SheetTrigger>
             <SheetContent side="left" className="shop-mobile-sheet">
               <SheetHeader>
                 <SheetTitle>
-                  <Link href="/" className="shop-wordmark">aurvella<span>®</span></Link>
+                  <Link href="/" className="shop-wordmark">
+                    <Logo />
+                  </Link>
                 </SheetTitle>
               </SheetHeader>
               <nav className="shop-mobile-links" aria-label="Mobile navigation">
@@ -64,11 +72,16 @@ export function StoreHeader() {
           </Sheet>
         </div>
         <Link href="/" className="shop-wordmark" aria-label="Aurvella home">
-          aurvella<span>®</span>
+          <Logo />
         </Link>
         <div className="shop-header-actions">
-          <Link href="/products" className="shop-search-link" aria-label="Search jewelry">
-            <Search aria-hidden="true" /><span>Search</span>
+          <Link
+            href="/products"
+            className="shop-search-link"
+            aria-label="Search jewelry"
+          >
+            <Search aria-hidden="true" />
+            <span>Search</span>
           </Link>
           <Link href="/products" className="shop-header-browse">
             Shop jewelry <span aria-hidden="true">→</span>
@@ -77,7 +90,9 @@ export function StoreHeader() {
       </div>
       <nav className="shop-primary-nav" aria-label="Shop by category">
         {navLinks.map((link) => (
-          <Link href={link.href} key={link.label}>{link.label}</Link>
+          <Link href={link.href} key={link.label}>
+            {link.label}
+          </Link>
         ))}
       </nav>
     </header>

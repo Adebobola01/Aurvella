@@ -5,11 +5,13 @@ import { ProductTile } from "@/components/storefront/product-tile";
 import { FadeIn, Reveal } from "@/components/storefront/reveal";
 import { StoreHeader } from "@/components/storefront/store-header";
 import { getFeaturedProducts } from "@/data/storefront-products";
+import Logo from "@/components/Logo";
+import Footer from "@/components/Footer";
 
 const categories = [
   {
     name: "Necklaces",
-    image: "/images/category-necklaces.jpg",
+    image: "/images/necklace.jpeg",
     alt: "Gold pendant necklaces on a warm background",
   },
   {
@@ -19,12 +21,22 @@ const categories = [
   },
   {
     name: "Earrings",
-    image: "/images/category-earrings.jpg",
+    image: "/images/earring.jpeg",
     alt: "Statement gemstone earrings against a green leaf",
   },
   {
     name: "Bracelets",
     image: "/images/category-bracelets.jpg",
+    alt: "A delicate gold bracelet on a soft pink background",
+  },
+  {
+    name: "wristwatches",
+    image: "/images/wristwatch.jpeg",
+    alt: "A delicate gold bracelet on a soft pink background",
+  },
+  {
+    name: "Brooches",
+    image: "/images/brooch.jpeg",
     alt: "A delicate gold bracelet on a soft pink background",
   },
 ];
@@ -38,7 +50,7 @@ export default async function Home() {
       <main>
         <section className="shop-hero">
           <Image
-            src="/images/hero-necklaces.jpg"
+            src="/images/hero.jpeg"
             alt="Layered necklaces worn with a white blouse"
             fill
             priority
@@ -47,7 +59,9 @@ export default async function Home() {
           />
           <div className="shop-hero-shade" />
           <FadeIn className="shop-hero-copy">
-            <p className="shop-kicker">JEWELRY FOR EVERY DAY & EVERYTHING AFTER</p>
+            <p className="shop-kicker">
+              JEWELRY FOR EVERY DAY & EVERYTHING AFTER
+            </p>
             <h1>
               Find the piece
               <br />
@@ -74,7 +88,7 @@ export default async function Home() {
               View all jewelry <ArrowUpRight aria-hidden="true" />
             </Link>
           </div>
-          <div className="shop-category-grid">
+          <div className="shop-category-scrollable">
             {categories.map((category, index) => (
               <Reveal key={category.name} delay={index * 0.04}>
                 <Link
@@ -93,7 +107,9 @@ export default async function Home() {
                     </span>
                   </span>
                   <span className="shop-category-name">{category.name}</span>
-                  <span className="shop-category-subtitle">Shop {category.name.toLowerCase()}</span>
+                  <span className="shop-category-subtitle">
+                    Shop {category.name.toLowerCase()}
+                  </span>
                 </Link>
               </Reveal>
             ))}
@@ -121,10 +137,14 @@ export default async function Home() {
               </div>
             ) : (
               <div className="shop-empty-products">
-                <span className="shop-empty-mark" aria-hidden="true">A</span>
+                <span className="shop-empty-mark" aria-hidden="true">
+                  A
+                </span>
                 <div>
                   <h3>New favorites are on the way.</h3>
-                  <p>In the meantime, find your next favorite in the collection.</p>
+                  <p>
+                    In the meantime, find your next favorite in the collection.
+                  </p>
                 </div>
                 <Link href="/products" className="shop-button shop-button-dark">
                   Browse jewelry <ArrowRight aria-hidden="true" />
@@ -145,7 +165,10 @@ export default async function Home() {
           </div>
           <div className="shop-story-copy">
             <p className="shop-kicker">THE AURVELLA EDIT</p>
-            <h2>A little detail.<br />A whole new feeling.</h2>
+            <h2>
+              A little detail.
+              <br />A whole new feeling.
+            </h2>
             <p>
               Start with a favorite shape, then make it part of your everyday.
               There&apos;s always a reason to wear the good pieces.
@@ -156,25 +179,7 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      <footer className="shop-footer">
-        <div className="shop-footer-main shop-content">
-          <div>
-            <Link href="/" className="shop-wordmark">aurvella<span>®</span></Link>
-            <p>Jewelry to make your own.</p>
-          </div>
-          <nav aria-label="Shop jewelry">
-            <Link href="/products">All jewelry</Link>
-            <Link href="/products?category=Necklaces">Necklaces</Link>
-            <Link href="/products?category=Rings">Rings</Link>
-            <Link href="/products?category=Earrings">Earrings</Link>
-            <Link href="/products?category=Bracelets">Bracelets</Link>
-          </nav>
-        </div>
-        <div className="shop-footer-bottom shop-content">
-          <span>© {new Date().getFullYear()} Aurvella</span>
-          <span>Made to be worn, loved, and worn again.</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

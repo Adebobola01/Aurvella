@@ -36,7 +36,7 @@
   gap: 7px;
   background: #191919;
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.045em;
   text-align: center;
 }
@@ -101,7 +101,7 @@
   align-items: center;
   gap: 8px;
   color: #353535;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .shop-search-link svg {
@@ -114,7 +114,9 @@
   min-height: 38px;
   border: 1px solid #222;
   padding: 0 14px;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .shop-header-browse:hover {
@@ -138,7 +140,7 @@
   height: 42px;
   align-items: center;
   color: #494949;
-  font-size: 11px;
+  font-size: 14px;
   transition: color 160ms ease;
 }
 
@@ -192,12 +194,14 @@
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: linear-gradient(
-    90deg,
-    rgb(0 0 0 / 52%) 0%,
-    rgb(0 0 0 / 29%) 39%,
-    rgb(0 0 0 / 0%) 77%
-  ), linear-gradient(0deg, rgb(0 0 0 / 20%), transparent 36%);
+  background:
+    linear-gradient(
+      90deg,
+      rgb(0 0 0 / 52%) 0%,
+      rgb(0 0 0 / 29%) 39%,
+      rgb(0 0 0 / 0%) 77%
+    ),
+    linear-gradient(0deg, rgb(0 0 0 / 20%), transparent 36%);
 }
 
 .shop-hero-copy {
@@ -249,9 +253,11 @@
   justify-content: center;
   gap: 16px;
   padding-inline: 19px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
-  transition: background 160ms ease, color 160ms ease;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .shop-button svg {
@@ -314,7 +320,7 @@
   align-items: center;
   gap: 7px;
   color: #292929;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -333,6 +339,15 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
+}
+
+.shop-category-scrollable {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, calc((100% - 3rem) / 4));
+  grid-auto-columns: calc((100% - 3rem) / 4);
+  grid-auto-flow: column;
+  gap: 16px;
+  overflow-x: auto;
 }
 
 .shop-category-card {
@@ -369,7 +384,9 @@
   color: #181818;
   opacity: 0;
   transform: translateY(3px);
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
 }
 
 .shop-category-card:hover .shop-category-arrow {
@@ -469,7 +486,9 @@
   font-weight: 600;
   opacity: 0;
   transform: translateY(4px);
-  transition: opacity 160ms ease, transform 160ms ease;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
 }
 
 .shop-product-tile:hover .shop-product-quick-view,
@@ -612,7 +631,7 @@
 .shop-footer-main > div p {
   margin: 7px 0 0;
   color: #707070;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-footer-main nav {
@@ -623,7 +642,7 @@
 
 .shop-footer-main nav a {
   color: #464646;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .shop-footer-main nav a:hover {
@@ -638,7 +657,7 @@
   justify-content: space-between;
   border-top: 1px solid #e4e2de;
   color: #777;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .shop-catalog {
@@ -704,7 +723,7 @@
   align-items: center;
   border-bottom: 2px solid transparent;
   color: #5c5c5c;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .shop-category-nav a[aria-current="page"] {
@@ -744,7 +763,7 @@
   border-color: #ddd;
   border-radius: 0;
   background: white;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .shop-filter-select {
@@ -761,7 +780,7 @@
   padding: 0 28px 0 11px;
   color: #3c3c3c;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-filter-select::after {
@@ -781,7 +800,7 @@
   height: 40px;
   border-radius: 0;
   padding-inline: 16px;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-filter-submit.outline {
@@ -993,7 +1012,7 @@
   align-items: center;
   gap: 6px;
   color: #1d1d1d;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -1011,7 +1030,7 @@
   align-items: center;
   gap: 7px;
   color: #565656;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-back-link a:hover {
@@ -1028,6 +1047,7 @@
 .shop-mobile-sheet {
   gap: 0;
   background: white;
+  padding-inline: 1rem;
 }
 
 .shop-mobile-sheet .shop-wordmark {
@@ -1045,7 +1065,7 @@
   border-bottom: 1px solid var(--shop-line);
   padding-block: 15px;
   color: #242424;
-  font-size: 17px;
+  font-size: 17px !important;
 }
 
 .shop-mobile-search {
@@ -1110,7 +1130,7 @@
     min-height: 32px;
     gap: 5px;
     padding-inline: 8px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .shop-header-main {
@@ -1201,7 +1221,7 @@
 
   .shop-text-link {
     gap: 4px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .shop-category-grid {
@@ -1247,7 +1267,7 @@
     bottom: 6px;
     left: 6px;
     min-height: 30px;
-    font-size: 9px;
+    font-size: 11px;
     opacity: 1;
     transform: none;
   }
@@ -1332,7 +1352,7 @@
   .shop-footer-bottom {
     min-height: 39px;
     gap: 10px;
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .shop-catalog {
@@ -1361,7 +1381,7 @@
 
   .shop-category-nav a {
     min-height: 40px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .shop-filter-bar {
@@ -1379,7 +1399,7 @@
   .shop-filter-select select {
     width: 100%;
     height: 38px;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .shop-filter-select::after {

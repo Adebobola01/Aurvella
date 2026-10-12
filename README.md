@@ -26,6 +26,7 @@ database file.
    The script records applied migration names in the database and can be run
    again safely. Run it before deploying code that depends on a new migration.
    Prisma Migrate does not apply migrations directly to Turso.
+
 4. Redeploy the project. If the existing local SQLite database contains product
    data you need in production, migrate that data separately; applying these
    files creates the schema but does not copy local records.
@@ -61,6 +62,7 @@ error rather than silently attempting to open a non-persistent SQLite file.
    Use a strong password with at least 12 characters. The password is entered
    without being echoed. Copy the printed `ADMIN_PASSWORD_HASH` value into
    `.env.local`.
+
 3. Set `ADMIN_EMAIL` to the administrator's email address.
 4. Set `SESSION_SECRET` to a cryptographically random secret of at least 32
    bytes. For example, generate one with:
@@ -77,6 +79,7 @@ error rather than silently attempting to open a non-persistent SQLite file.
    ```
 
    Visit `/admin/login` to sign in and `/admin` to open the product dashboard.
+
 6. To upload product images, create an R2 bucket, enable public access using a
    custom domain, and create an R2 API token with Object Read & Write access to
    that bucket. Set `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
@@ -146,3 +149,11 @@ Then open [http://localhost:3000](http://localhost:3000).
 - `npm run build` — create a production build.
 - `npm run start` — run the production server.
 - `npm run lint` — run ESLint.
+
+## Categories
+
+- watches and anklets
+
+##
+
+- best sellers, cart, sign-in, gifts, contact-us, social links, increase text size,
