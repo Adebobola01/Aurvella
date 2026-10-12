@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Search } from "lucide-react";
+import { Menu, Search, ShoppingBag } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Logo from "@/components/Logo";
+import { useCart } from "@/components/storefront/cart-provider";
 
 const navLinks = [
   { href: "/products", label: "All jewelry" },
@@ -23,6 +24,7 @@ const navLinks = [
 
 export function StoreHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { itemCount } = useCart();
 
   return (
     <header className="shop-header">
@@ -85,6 +87,17 @@ export function StoreHeader() {
           </Link>
           <Link href="/products" className="shop-header-browse">
             Shop jewelry <span aria-hidden="true">→</span>
+          </Link>
+          <Link
+            href="/cart"
+            className="shop-cart-header-link"
+            aria-label={`Shopping bag, ${itemCount} ${itemCount === 1 ? "item" : "items"}`}
+          >
+            <ShoppingBag aria-hidden="true" />
+            <span>Cart</span>
+            <span className="shop-cart-count" aria-hidden="true">
+              {itemCount}
+            </span>
           </Link>
         </div>
       </div>

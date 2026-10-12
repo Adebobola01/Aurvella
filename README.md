@@ -150,6 +150,14 @@ Then open [http://localhost:3000](http://localhost:3000).
 - `npm run start` — run the production server.
 - `npm run lint` — run ESLint.
 
+## Shopping cart
+
+The guest cart is saved in the current browser and refreshed against published
+product data when the cart page opens. If inventory has changed, unavailable
+products are removed and quantities are reduced to available stock. The cart
+does not reserve inventory, and checkout is not implemented yet. Account-based
+cart syncing and merging will be added with customer sign-in.
+
 ## Categories
 
 - watches and anklets

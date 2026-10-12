@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { StoreHeader } from "@/components/storefront/store-header";
+import { AddToCartButton } from "@/components/storefront/add-to-cart-button";
 import { getStorefrontProduct } from "@/data/storefront-products";
 import Footer from "@/components/Footer";
 
@@ -80,6 +81,10 @@ export default async function ProductDetailPage({
               />
               {product.quantity > 0 ? "In stock" : "Currently unavailable"}
             </p>
+            <AddToCartButton
+              productId={product.id}
+              availableQuantity={product.quantity}
+            />
             <div className="shop-detail-notice">
               <p>Looking for something special?</p>
               <Link href="/products">
