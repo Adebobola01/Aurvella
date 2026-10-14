@@ -40,9 +40,13 @@ export function CartContents() {
     items,
     hydrated,
     storageIssue,
+    accountSyncIssue,
+    accountSyncing,
+    customer,
     setQuantity,
     removeItem,
     replaceItems,
+    retryAccountSync,
   } = useCart();
   const [products, setProducts] = useState<CartProduct[]>([]);
   const [loading, setLoading] = useState(false);
@@ -155,6 +159,23 @@ export function CartContents() {
           {storageIssue}
         </p>
       )}
+      {accountSyncIssue && (
+        <p className="shop-cart-alert" role="alert">
+          {accountSyncIssue}{" "}
+          <button
+            type="button"
+            className="shop-cart-retry"
+            onClick={retryAccountSync}
+          >
+            Retry
+          </button>
+        </p>
+      )}
+      {accountSyncing && (
+        <p className="shop-cart-notice" role="status">
+          Syncing your cart with your account…
+        </p>
+      )}
       {stockNotice && (
         <p className="shop-cart-notice" role="status">
           {stockNotice}
@@ -229,7 +250,7 @@ export function CartContents() {
                         <button
                           type="button"
                           aria-label={`Decrease ${product.name} quantity`}
-                          disabled={quantity <= 1}
+                          disabled={quantity <= 1 || accountSyncing}
                           onClick={() =>
                             setQuantity(product.id, quantity - 1)
                           }
@@ -240,7 +261,9 @@ export function CartContents() {
                         <button
                           type="button"
                           aria-label={`Increase ${product.name} quantity`}
-                          disabled={quantity >= product.quantity}
+                          disabled={
+                            quantity >= product.quantity || accountSyncing
+                          }
                           onClick={() =>
                             setQuantity(product.id, quantity + 1)
                           }
@@ -251,6 +274,7 @@ export function CartContents() {
                       <button
                         type="button"
                         className="shop-cart-remove"
+                        disabled={accountSyncing}
                         onClick={() => removeItem(product.id)}
                       >
                         <Trash2 aria-hidden="true" /> Remove
@@ -282,6 +306,14 @@ export function CartContents() {
             <p className="shop-cart-checkout-note">
               Checkout is not available yet. Your cart is saved in this browser.
             </p>
+            {!customer && (
+              <Link
+                className="shop-cart-account-link"
+                href="/sign-in?callbackURL=%2Fcart"
+              >
+                Sign in to save your cart to your account
+              </Link>
+            )}
           </aside>
         </div>
       )}

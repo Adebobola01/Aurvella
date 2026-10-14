@@ -131,6 +131,35 @@ platform's secret manager in production; do not commit `.env.local` or expose
 these values to client-side code. Apply request rate limiting at the hosting
 edge before exposing the login endpoint publicly.
 
+## Customer accounts
+
+Customer accounts use Better Auth with the existing Prisma/Turso database.
+Customer registration, email/password sign-in, Google OAuth, email verification,
+password resets, saved account carts, and the separate administrator login use
+distinct customer/admin authentication flows.
+
+Set these secrets in `.env.local` and in the production secret manager:
+
+- `BETTER_AUTH_URL` — the canonical app URL, such as
+  `http://localhost:3000` locally and the deployed HTTPS origin in production.
+- `BETTER_AUTH_SECRET` — a cryptographically random secret of at least 32 bytes.
+  Generate one with
+  `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64'))"`.
+- `RESEND_API_KEY` — the Resend API key used for verification and password reset
+  messages.
+- `AUTH_EMAIL_FROM` — a sender address verified in Resend, for example
+  `Aurvella <accounts@your-verified-domain>`.
+- `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` — optional until Google OAuth is
+  configured. Create a Google OAuth Web application and register
+  `https://your-domain/api/auth/callback/google` as an authorized redirect URI.
+  For local development, also register
+  `http://localhost:3000/api/auth/callback/google`.
+
+The `CustomerCartItem` table stores signed-in carts. The first sign-in merges
+the browser cart into the account cart, combining quantities up to current
+inventory. Account cart changes sync to the database; signing out clears the
+browser copy but keeps the account cart. Guest carts remain browser-persisted.
+
 ## Development
 
 Install dependencies and run the development server:

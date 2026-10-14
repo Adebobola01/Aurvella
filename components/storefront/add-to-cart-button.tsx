@@ -11,7 +11,7 @@ export function AddToCartButton({
   productId: string;
   availableQuantity: number;
 }) {
-  const { addItem, hydrated } = useCart();
+  const { addItem, hydrated, accountSyncing } = useCart();
   const [message, setMessage] = useState("");
   const unavailable = availableQuantity < 1;
 
@@ -37,13 +37,14 @@ export function AddToCartButton({
         className="shop-button shop-button-dark shop-add-to-cart"
         type="button"
         onClick={handleAdd}
-        disabled={!hydrated || unavailable}
+        disabled={!hydrated || accountSyncing || unavailable}
       >
         <ShoppingBag aria-hidden="true" />
         {unavailable ? "Sold out" : "Add to cart"}
       </button>
       <p aria-live="polite" className="shop-cart-feedback">
-        {message}
+        {message ||
+          (accountSyncing ? "Updating your saved cart…" : "")}
       </p>
     </div>
   );

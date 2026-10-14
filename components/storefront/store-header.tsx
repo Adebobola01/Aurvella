@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Search, ShoppingBag } from "lucide-react";
+import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -24,7 +24,9 @@ const navLinks = [
 
 export function StoreHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { itemCount } = useCart();
+  const { itemCount, customer } = useCart();
+  const accountHref = customer ? "/account" : "/sign-in?callbackURL=%2Faccount";
+  const accountLabel = customer ? "My account" : "Sign in";
 
   return (
     <header className="shop-header">
@@ -62,6 +64,13 @@ export function StoreHeader() {
                     {link.label}
                   </Link>
                 ))}
+                <Link
+                  href={accountHref}
+                  className="shop-mobile-link"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {accountLabel}
+                </Link>
               </nav>
               <Link
                 href="/products"
@@ -98,6 +107,14 @@ export function StoreHeader() {
             <span className="shop-cart-count" aria-hidden="true">
               {itemCount}
             </span>
+          </Link>
+          <Link
+            href={accountHref}
+            className="shop-account-header-link"
+            aria-label={accountLabel}
+          >
+            <UserRound aria-hidden="true" />
+            <span>{accountLabel}</span>
           </Link>
         </div>
       </div>
