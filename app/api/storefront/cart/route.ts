@@ -19,7 +19,6 @@ export async function GET(request: Request) {
       slug: true,
       name: true,
       category: true,
-      description: true,
       priceInMinorUnits: true,
       currencyCode: true,
       quantity: true,

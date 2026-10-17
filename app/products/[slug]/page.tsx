@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { StoreHeader } from "@/components/storefront/store-header";
 import { AddToCartButton } from "@/components/storefront/add-to-cart-button";
+import { ProductImageGallery } from "@/components/storefront/product-image-gallery";
 import { getStorefrontProduct } from "@/data/storefront-products";
 import Footer from "@/components/Footer";
 
@@ -35,31 +35,11 @@ export default async function ProductDetailPage({
           <span>{product.name}</span>
         </nav>
         <div className="shop-product-detail-grid">
-          <div className="shop-product-gallery">
-            {product.images.length ? (
-              product.images.map((image, index) => (
-                <div className="shop-detail-image" key={image.id}>
-                  <Image
-                    src={image.deliveryUrl}
-                    alt={image.altText || product.name}
-                    fill
-                    priority={index === 0}
-                    sizes="(max-width: 760px) 100vw, 58vw"
-                  />
-                  {index === 0 && product.images.length > 1 && (
-                    <span className="shop-image-count">
-                      {String(index + 1).padStart(2, "0")} /{" "}
-                      {String(product.images.length).padStart(2, "0")}
-                    </span>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div className="shop-detail-no-image">
-                <span>{product.category}</span>
-              </div>
-            )}
-          </div>
+          <ProductImageGallery
+            images={product.images}
+            productName={product.name}
+            category={product.category}
+          />
           <aside className="shop-product-info-panel">
             <p className="shop-kicker">{product.category}</p>
             <h1>{product.name}</h1>
