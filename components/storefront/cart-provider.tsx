@@ -35,8 +35,14 @@ type CartContextValue = {
   storageIssue: string | null;
   accountSyncIssue: string | null;
   accountSyncing: boolean;
+  cartDrawerOpen: boolean;
   customer: { id: string; name: string; email: string } | null;
-  addItem: (productId: string, availableQuantity: number) => AddItemResult;
+  addItem: (
+    productId: string,
+    availableQuantity: number,
+    quantity?: number,
+  ) => AddItemResult;
+  setCartDrawerOpen: (open: boolean) => void;
   setQuantity: (productId: string, quantity: number) => boolean;
   removeItem: (productId: string) => boolean;
   replaceItems: (items: CartLine[]) => boolean;
@@ -93,6 +99,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
   const [storageIssue, setStorageIssue] = useState<string | null>(null);
   const [accountSyncIssue, setAccountSyncIssue] = useState<string | null>(null);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [accountReadyUserId, setAccountReadyUserId] = useState<string | null>(
     null,
   );
@@ -321,20 +328,27 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [accountReadyUserId, userId]);
 
   const addItem = useCallback(
-    (productId: string, availableQuantity: number): AddItemResult => {
+    (
+      productId: string,
+      availableQuantity: number,
+      quantity = 1,
+    ): AddItemResult => {
       if (!hydrated) return "storage-error";
       if (availableQuantity < 1) return "unavailable";
+      if (
+        !Number.isSafeInteger(quantity) ||
+        quantity < 1 ||
+        quantity > MAX_CART_QUANTITY
+      ) {
+        return "limit";
+      }
 
       const existing = items.find((item) => item.productId === productId);
       if (!existing && items.length >= MAX_CART_LINES) return "cart-full";
       const currentQuantity = existing?.quantity ?? 0;
-      if (currentQuantity >= availableQuantity) return "limit";
+      if (currentQuantity + quantity > availableQuantity) return "limit";
 
-      const nextQuantity = Math.min(
-        currentQuantity + 1,
-        availableQuantity,
-        MAX_CART_QUANTITY,
-      );
+      const nextQuantity = currentQuantity + quantity;
       const nextItems = existing
         ? items.map((item) =>
             item.productId === productId
@@ -343,9 +357,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
           )
         : [...items, { productId, quantity: nextQuantity }];
 
-      return persistItems(nextItems)
-        ? "added"
-        : "storage-error";
+      if (!persistItems(nextItems)) return "storage-error";
+      setCartDrawerOpen(true);
+      return "added";
     },
     [hydrated, items, persistItems],
   );
@@ -403,8 +417,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       storageIssue,
       accountSyncIssue,
       accountSyncing,
+      cartDrawerOpen,
       customer,
       addItem,
+      setCartDrawerOpen,
       setQuantity,
       removeItem,
       replaceItems,
@@ -418,8 +434,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       storageIssue,
       accountSyncIssue,
       accountSyncing,
+      cartDrawerOpen,
       customer,
       addItem,
+      setCartDrawerOpen,
       setQuantity,
       removeItem,
       replaceItems,
@@ -428,7 +446,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
 }
 
 export function useCart() {
