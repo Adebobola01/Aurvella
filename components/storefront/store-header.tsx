@@ -6,12 +6,16 @@ import { Menu, Search, ShoppingBag, UserRound } from "lucide-react";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import Form from "next/form";
 import Logo from "@/components/Logo";
 import { useCart } from "@/components/storefront/cart-provider";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const navLinks = [
   { href: "/products", label: "All jewelry" },
@@ -24,6 +28,7 @@ const navLinks = [
 
 export function StoreHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { itemCount, customer } = useCart();
   const accountHref = customer ? "/account" : "/sign-in?callbackURL=%2Faccount";
   const accountLabel = customer ? "My account" : "Sign in";
@@ -72,13 +77,16 @@ export function StoreHeader() {
                   {accountLabel}
                 </Link>
               </nav>
-              <Link
-                href="/products"
+              <button
+                type="button"
                 className="shop-mobile-search"
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  setMenuOpen(false);
+                  setSearchOpen(true);
+                }}
               >
                 <Search aria-hidden="true" /> Search the collection
-              </Link>
+              </button>
             </SheetContent>
           </Sheet>
         </div>
@@ -86,14 +94,46 @@ export function StoreHeader() {
           <Logo />
         </Link>
         <div className="shop-header-actions">
-          <Link
-            href="/products"
-            className="shop-search-link"
-            aria-label="Search jewelry"
-          >
-            <Search aria-hidden="true" />
-            <span>Search</span>
-          </Link>
+          <Sheet open={searchOpen} onOpenChange={setSearchOpen}>
+            <SheetTrigger className="shop-search-link" aria-label="Search jewelry">
+              <Search aria-hidden="true" />
+              <span>Search</span>
+            </SheetTrigger>
+            <SheetContent side="top" className="shop-search-sheet">
+              <div className="shop-search-panel">
+                <SheetTitle className="shop-search-title">
+                  What are you looking for?
+                </SheetTitle>
+                <SheetDescription className="sr-only">
+                  Search Aurvella jewelry by name, description, or category.
+                </SheetDescription>
+                <Form
+                  action="/products"
+                  className="shop-search-form"
+                  onSubmit={() => setSearchOpen(false)}
+                >
+                  <label className="shop-search-field">
+                    <Search aria-hidden="true" />
+                    <Input
+                      type="search"
+                      name="q"
+                      maxLength={100}
+                      placeholder="Try rings, necklaces, or a style"
+                      aria-label="Search products"
+                      autoFocus
+                    />
+                  </label>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="shop-filter-submit"
+                  >
+                    Search
+                  </Button>
+                </Form>
+              </div>
+            </SheetContent>
+          </Sheet>
           <Link href="/products" className="shop-header-browse">
             Shop jewelry <span aria-hidden="true">→</span>
           </Link>
