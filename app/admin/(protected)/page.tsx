@@ -5,6 +5,7 @@ import {
   isProductStatus,
   type ProductStatus,
 } from "@/data/admin-products";
+import { AdminNavigation } from "@/components/admin/admin-navigation";
 
 type AdminSearchParams = {
   q?: string | string[];
@@ -163,48 +164,7 @@ export default async function AdminDashboardPage({
           Atelier administration
         </p>
 
-        <nav aria-label="Admin navigation" className="mt-14 space-y-1">
-          <Link
-            aria-current="page"
-            className="flex items-center gap-3 bg-black px-3 py-2.5 text-sm font-medium text-white"
-            href="/admin"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.6"
-            >
-              <path
-                d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Overview
-          </Link>
-          <a
-            className="flex items-center gap-3 px-3 py-2.5 text-sm text-neutral-600 transition hover:bg-neutral-100 hover:text-black"
-            href="#products"
-          >
-            <svg
-              aria-hidden="true"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="1.6"
-            >
-              <path
-                d="M6 7.5h12l1 12H5l1-12ZM9 8V6a3 3 0 0 1 6 0v2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            Products
-          </a>
-        </nav>
+        <AdminNavigation active="overview" />
 
         <div className="mt-auto border-t border-neutral-200 pt-5">
           <p className="truncate text-xs text-neutral-500">Administrator</p>
@@ -242,6 +202,7 @@ export default async function AdminDashboardPage({
             Jewelry catalog
           </p>
         </header>
+        <AdminNavigation active="overview" mobile />
 
         <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 sm:py-10 lg:px-10">
           <section className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
