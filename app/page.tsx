@@ -106,7 +106,7 @@ export default async function Home() {
                       src={category.image}
                       alt={category.alt}
                       fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1000px) 25vw, 280px"
+                      sizes="(max-width: 680px) 50vw, (max-width: 1000px) 33vw, 360px"
                     />
                     <span className="shop-category-arrow">
                       <ArrowUpRight aria-hidden="true" />

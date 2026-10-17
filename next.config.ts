@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "pub-1787076a33a94f02bac6481b97ff358f.r2.dev",
+        pathname: "/products/**",
+      },
+      {
+        protocol: "https",
         hostname: "upload.wikimedia.org",
         pathname: "/wikipedia/commons/9/95/Instagram_logo_2022.svg",
       },

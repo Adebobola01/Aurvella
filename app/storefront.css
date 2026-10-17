@@ -429,8 +429,8 @@
 
 .shop-category-scrollable {
   display: grid;
-  grid-template-columns: repeat(auto-fill, calc((100% - 3rem) / 4));
-  grid-auto-columns: calc((100% - 3rem) / 4);
+  grid-template-columns: repeat(auto-fill, calc((100% - 2rem) / 3));
+  grid-auto-columns: calc((100% - 2rem) / 3);
   grid-auto-flow: column;
   gap: 16px;
   overflow-x: auto;
@@ -2208,6 +2208,14 @@
 
   .shop-category-section {
     padding-block: 41px 49px;
+  }
+
+  .shop-category-scrollable {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-columns: auto;
+    grid-auto-flow: row;
+    gap: 20px 12px;
+    overflow: visible;
   }
 
   .shop-section-heading {
