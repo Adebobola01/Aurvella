@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag } from "lucide-react";
+import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCart } from "@/components/storefront/cart-provider";
 
 export function AddToCartButton({
@@ -16,12 +16,10 @@ export function AddToCartButton({
   const currentQuantity =
     items.find((item) => item.productId === productId)?.quantity ?? 0;
   const remainingQuantity = Math.max(0, availableQuantity - currentQuantity);
+  const addableQuantity = Math.min(remainingQuantity, 999 - currentQuantity);
   const [quantity, setQuantity] = useState(1);
-  const selectedQuantity = Math.min(
-    quantity,
-    Math.max(remainingQuantity, 1),
-  );
-  const unavailable = remainingQuantity < 1;
+  const selectedQuantity = Math.min(quantity, Math.max(addableQuantity, 1));
+  const unavailable = addableQuantity < 1;
 
   function handleAdd() {
     const result = addItem(productId, availableQuantity, selectedQuantity);
@@ -42,28 +40,39 @@ export function AddToCartButton({
   return (
     <div className="shop-add-to-cart-wrap">
       <div className="shop-add-quantity">
-        <label htmlFor={`quantity-${productId}`}>Quantity</label>
-        <input
-          id={`quantity-${productId}`}
-          type="number"
-          min={1}
-          max={remainingQuantity}
-          step={1}
-          value={selectedQuantity}
-          disabled={!hydrated || accountSyncing || unavailable}
-          aria-label={`Quantity to add, ${remainingQuantity} available`}
-          onChange={(event) => {
-            const nextQuantity = Number(event.currentTarget.value);
-            if (!Number.isSafeInteger(nextQuantity)) return;
-            setQuantity(
-              Math.max(1, Math.min(nextQuantity, remainingQuantity)),
-            );
-          }}
-        />
+        <span className="shop-add-quantity-label">Quantity</span>
+        <div className="shop-cart-quantity">
+          <button
+            type="button"
+            aria-label="Decrease quantity to add"
+            disabled={
+              !hydrated || accountSyncing || unavailable || selectedQuantity <= 1
+            }
+            onClick={() => setQuantity(Math.max(1, selectedQuantity - 1))}
+          >
+            <Minus aria-hidden="true" />
+          </button>
+          <span aria-live="polite">{selectedQuantity}</span>
+          <button
+            type="button"
+            aria-label="Increase quantity to add"
+            disabled={
+              !hydrated ||
+              accountSyncing ||
+              unavailable ||
+              selectedQuantity >= addableQuantity
+            }
+            onClick={() =>
+              setQuantity(Math.min(addableQuantity, selectedQuantity + 1))
+            }
+          >
+            <Plus aria-hidden="true" />
+          </button>
+        </div>
         <span>
           {unavailable
             ? "No more stock available"
-            : `${remainingQuantity} available`}
+            : `${addableQuantity} available`}
         </span>
       </div>
       <button

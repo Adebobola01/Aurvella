@@ -19,12 +19,12 @@ export async function GET(request: Request) {
       slug: true,
       name: true,
       category: true,
+      description: true,
       priceInMinorUnits: true,
       currencyCode: true,
       quantity: true,
       images: {
         orderBy: { displayOrder: "asc" },
-        take: 1,
         select: { deliveryUrl: true, altText: true },
       },
     },
