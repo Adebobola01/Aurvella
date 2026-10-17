@@ -4,7 +4,10 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ProductTile } from "@/components/storefront/product-tile";
 import { FadeIn, Reveal } from "@/components/storefront/reveal";
 import { StoreHeader } from "@/components/storefront/store-header";
-import { getFeaturedProducts } from "@/data/storefront-products";
+import {
+  getBestSellerProducts,
+  getFeaturedProducts,
+} from "@/data/storefront-products";
 import Logo from "@/components/Logo";
 import Footer from "@/components/Footer";
 
@@ -42,7 +45,10 @@ const categories = [
 ];
 
 export default async function Home() {
-  const featured = await getFeaturedProducts();
+  const [featured, bestSellers] = await Promise.all([
+    getFeaturedProducts(),
+    getBestSellerProducts(),
+  ]);
 
   return (
     <div className="storefront">
@@ -144,6 +150,44 @@ export default async function Home() {
                   <h3>New favorites are on the way.</h3>
                   <p>
                     In the meantime, find your next favorite in the collection.
+                  </p>
+                </div>
+                <Link href="/products" className="shop-button shop-button-dark">
+                  Browse jewelry <ArrowRight aria-hidden="true" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="shop-best-sellers-section">
+          <div className="shop-content">
+            <div className="shop-section-heading">
+              <div>
+                <p className="shop-kicker">THE AURVELLA EDIT</p>
+                <h2>Best Sellers</h2>
+              </div>
+              <Link className="shop-text-link" href="/products">
+                Shop all jewelry <ArrowUpRight aria-hidden="true" />
+              </Link>
+            </div>
+            {bestSellers.length ? (
+              <div className="shop-product-grid">
+                {bestSellers.map((product, index) => (
+                  <Reveal key={product.id} delay={index * 0.04}>
+                    <ProductTile product={product} />
+                  </Reveal>
+                ))}
+              </div>
+            ) : (
+              <div className="shop-empty-products">
+                <span className="shop-empty-mark" aria-hidden="true">
+                  A
+                </span>
+                <div>
+                  <h3>Our best-loved pieces are coming soon.</h3>
+                  <p>
+                    Explore the collection while we put together this edit.
                   </p>
                 </div>
                 <Link href="/products" className="shop-button shop-button-dark">

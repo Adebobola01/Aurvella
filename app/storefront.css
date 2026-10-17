@@ -505,8 +505,51 @@
   background: var(--shop-soft);
 }
 
+.shop-best-sellers-section {
+  padding-block: 64px 72px;
+}
+
 .shop-featured-section .shop-section-heading {
   margin-bottom: 25px;
+}
+
+.shop-best-sellers-section .shop-section-heading {
+  margin-bottom: 25px;
+}
+
+.shop-gifts-main {
+  padding-block: 26px 86px;
+}
+
+.shop-gifts-intro {
+  max-width: 680px;
+  padding-block: 39px 42px;
+}
+
+.shop-gifts-intro h1 {
+  margin: 9px 0 12px;
+  color: #1c1c1c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 5vw, 60px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.shop-gifts-intro > p:not(.shop-kicker) {
+  max-width: 430px;
+  margin: 0 0 20px;
+  color: #646464;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.shop-gift-categories {
+  padding-top: 16px;
+}
+
+.shop-gift-categories .shop-section-heading {
+  margin-bottom: 24px;
 }
 
 .shop-product-grid {
@@ -736,6 +779,26 @@
   text-underline-offset: 3px;
 }
 
+.shop-footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.shop-footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shop-footer-socials img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
 .shop-footer-bottom {
   display: flex;
   min-height: 43px;
@@ -756,7 +819,7 @@
   gap: 9px;
   min-height: 25px;
   color: #787878;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-breadcrumbs a:hover {
@@ -899,7 +962,7 @@
   align-items: center;
   justify-content: space-between;
   color: #707070;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .shop-clear-filters {
@@ -1895,6 +1958,30 @@
 
   .shop-featured-section {
     padding-block: 43px 48px;
+  }
+
+  .shop-best-sellers-section {
+    padding-block: 43px 48px;
+  }
+
+  .shop-gifts-main {
+    padding-block: 17px 60px;
+  }
+
+  .shop-gifts-intro {
+    padding-block: 27px 32px;
+  }
+
+  .shop-gifts-intro h1 {
+    font-size: 38px;
+  }
+
+  .shop-gifts-intro > p:not(.shop-kicker) {
+    font-size: 12px;
+  }
+
+  .shop-gift-categories {
+    padding-top: 10px;
   }
 
   .shop-product-grid {

@@ -23,12 +23,34 @@ export type StorefrontProduct = Prisma.ProductGetPayload<{
   select: typeof productCardSelect;
 }>;
 
+export const BEST_SELLER_PRODUCT_SLUGS: string[] = [];
+
 export async function getFeaturedProducts() {
   return db.product.findMany({
     where: { status: "PUBLISHED" },
     orderBy: [{ createdAt: "desc" }, { id: "asc" }],
     take: 4,
     select: productCardSelect,
+  });
+}
+
+export async function getBestSellerProducts() {
+  if (BEST_SELLER_PRODUCT_SLUGS.length === 0) {
+    return [];
+  }
+
+  const products = await db.product.findMany({
+    where: {
+      status: "PUBLISHED",
+      slug: { in: BEST_SELLER_PRODUCT_SLUGS },
+    },
+    select: productCardSelect,
+  });
+  const productsBySlug = new Map(products.map((product) => [product.slug, product]));
+
+  return BEST_SELLER_PRODUCT_SLUGS.flatMap((slug) => {
+    const product = productsBySlug.get(slug);
+    return product ? [product] : [];
   });
 }
 

@@ -11,6 +11,21 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "imagedelivery.net",
       },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/wikipedia/commons/9/95/Instagram_logo_2022.svg",
+      },
+      {
+        protocol: "https",
+        hostname: "thumb.wikimedia.org",
+        pathname: "/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/**",
+      },
+      {
+        protocol: "https",
+        hostname: "thumb.wikimedia.org",
+        pathname: "/wikipedia/commons/thumb/4/4c/WhatsApp_Logo_green.svg/**",
+      },
       ...(r2PublicUrl
         ? [
             {

@@ -64,7 +64,7 @@ export default async function ProductsPage({
     <div className="storefront">
       <StoreHeader />
       <main className="shop-catalog shop-content">
-        <nav className="shop-breadcrumbs" aria-label="Breadcrumb">
+        <nav className="shop-breadcrumbs" aria-label="Breadcrumb ">
           <Link href="/">Home</Link>
           <span>/</span>
           <span>Jewelry</span>

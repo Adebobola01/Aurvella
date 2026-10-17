@@ -187,10 +187,9 @@ products are removed and quantities are reduced to available stock. The cart
 does not reserve inventory, and checkout is not implemented yet. Account-based
 cart syncing and merging will be added with customer sign-in.
 
-## Categories
+## Storefront merchandising
 
-- watches and anklets
-
-##
-
-- best sellers, cart, sign-in, gifts, contact-us, social links, increase text size,
+The homepage Best Sellers edit is manually curated in
+`data/storefront-products.ts` through `BEST_SELLER_PRODUCT_SLUGS`. Add published
+product slugs to that list to feature them in the section. The Gifts guide is
+available at `/gifts` and links shoppers to the jewelry categories.

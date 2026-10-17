@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 const navLinks = [
   { href: "/products", label: "All jewelry" },
   { href: "/products?sort=newest", label: "New arrivals" },
+  { href: "/gifts", label: "Gifts" },
   { href: "/products?category=Rings", label: "Rings" },
   { href: "/products?category=Necklaces", label: "Necklaces" },
   { href: "/products?category=Earrings", label: "Earrings" },
@@ -158,7 +159,7 @@ export function StoreHeader() {
           </Link>
         </div>
       </div>
-      <nav className="shop-primary-nav" aria-label="Shop by category">
+      <nav className="shop-primary-nav" aria-label="Main navigation">
         {navLinks.map((link) => (
           <Link href={link.href} key={link.label}>
             {link.label}
